@@ -129,7 +129,7 @@ export class McpServerAdapter {
                 tools: {},
               },
               serverInfo: {
-                name: "context-bank",
+                name: "context",
                 version: "1.0.0",
               },
             },
@@ -171,7 +171,7 @@ export class McpServerAdapter {
 
       this.httpServer.listen(port, () => {
         console.log(
-          `Context Bank MCP server running on http://localhost:${port}${endpoint}`
+          `Context MCP server running on http://localhost:${port}${endpoint}`
         );
         console.log(`SSE endpoint: http://localhost:${port}${endpoint}`);
         resolve();

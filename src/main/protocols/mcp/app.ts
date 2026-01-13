@@ -7,7 +7,7 @@ const httpServerFactory = new NodeHttpServerFactory();
 const app = new McpServerAdapter(router, httpServerFactory);
 
 app.register({
-  name: "context-bank",
+  name: "context",
   version: "1.0.0",
 });
 

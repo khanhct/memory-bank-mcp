@@ -71,7 +71,7 @@ npm run test:coverage  # With coverage
 - MCP app: `src/main/protocols/mcp/app.ts`
 - Tools registered via MCP SDK
 - **Transport**: HTTP/SSE (Server-Sent Events) for multi-client support
-- **Server**: HTTP server on configurable port (default: 3000)
+- **Server**: HTTP server on configurable port (default: 8080)
 - **Endpoint**: Configurable SSE endpoint (default: `/mcp`)
 
 ### File Operations
@@ -80,8 +80,8 @@ npm run test:coverage  # With coverage
 - Paths validated before any file system access
 
 ### Environment Configuration
-- `MEMORY_BANK_ROOT`: Root directory for all memory banks (required)
-- `SERVER_PORT`: HTTP server port (default: 3000)
+- `CONTEXT_ROOT`: Root directory for all context (required, falls back to `CONTEXT_BANK_ROOT` or `MEMORY_BANK_ROOT` for backward compatibility)
+- `SERVER_PORT`: HTTP server port (default: 8080)
 - `SSE_ENDPOINT`: SSE endpoint path (default: `/mcp`)
 - Loaded via `src/main/config/env.ts`
 
@@ -89,7 +89,7 @@ npm run test:coverage  # With coverage
 
 - Compiled JavaScript in `dist/` directory
 - Executable: `dist/main/index.js`
-- Binary name: `mcp-server-memory-bank`
+- Binary name: `mcp-server-context`
 
 ## Docker Support
 

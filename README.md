@@ -1,22 +1,22 @@
-# Context Bank MCP Server
+# Context MCP Server
 
 [![smithery badge](https://smithery.ai/badge/@alioshr/context-bank-mcp)](https://smithery.ai/server/@alioshr/context-bank-mcp)
 [![npm version](https://badge.fury.io/js/%40allpepper%2Fcontext-bank-mcp.svg)](https://www.npmjs.com/package/@allpepper/context-bank-mcp)
 [![npm downloads](https://img.shields.io/npm/dm/@allpepper/context-bank-mcp.svg)](https://www.npmjs.com/package/@allpepper/context-bank-mcp)
 
-<a href="https://glama.ai/mcp/servers/ir18x1tixp"><img width="380" height="200" src="https://glama.ai/mcp/servers/ir18x1tixp/badge" alt="Context Bank Server MCP server" /></a>
+<a href="https://glama.ai/mcp/servers/ir18x1tixp"><img width="380" height="200" src="https://glama.ai/mcp/servers/ir18x1tixp/badge" alt="Context Server MCP server" /></a>
 
-A Model Context Protocol (MCP) server implementation for remote context bank management, inspired by [Cline Memory Bank](https://github.com/nickbaumann98/cline_docs/blob/main/prompting/custom%20instructions%20library/cline-memory-bank.md).
+A Model Context Protocol (MCP) server implementation for remote context management, inspired by [Cline Memory Bank](https://github.com/nickbaumann98/cline_docs/blob/main/prompting/custom%20instructions%20library/cline-memory-bank.md).
 
 ## Overview
 
-The Context Bank MCP Server transforms traditional file-based context banks into a centralized service that:
+The Context MCP Server transforms traditional file-based context into a centralized service that:
 
-- Provides remote access to context bank files via MCP protocol over HTTP/SSE
-- Enables multi-project context bank management
+- Provides remote access to context files via MCP protocol over HTTP/SSE
+- Enables multi-project context management
 - Supports multiple team members connecting simultaneously via Server-Sent Events (SSE)
 - Maintains consistent file structure and validation
-- Ensures proper isolation between project context banks
+- Ensures proper isolation between project context
 
 ## Features
 
@@ -38,7 +38,7 @@ The Context Bank MCP Server transforms traditional file-based context banks into
   - Security through project isolation
 
 - **Core Operations**
-  - Read/write/update context bank files
+  - Read/write/update context files
   - List available projects
   - List files within projects
   - Project existence validation
@@ -46,7 +46,7 @@ The Context Bank MCP Server transforms traditional file-based context banks into
 
 ## Installation
 
-To install Context Bank Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@alioshr/context-bank-mcp):
+To install Context Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@alioshr/context-bank-mcp):
 
 ```bash
 npx -y @smithery/cli install @alioshr/context-bank-mcp --client claude
@@ -60,7 +60,7 @@ This will set up the MCP server configuration automatically. Alternatively, you 
 
 1. Set environment variables:
    ```bash
-   export CONTEXT_BANK_ROOT=/path/to/context-bank
+   export CONTEXT_ROOT=/path/to/context
    export SERVER_PORT=8080  # Optional, defaults to 8080
    export SSE_ENDPOINT=/mcp  # Optional, defaults to /mcp
    ```
@@ -80,7 +80,7 @@ Configure your MCP client to connect to the HTTP/SSE endpoint (see Configuration
 
 ## Using with Cline/Roo Code
 
-The context bank MCP server needs to be configured in your Cline MCP settings file. The location depends on your setup:
+The context MCP server needs to be configured in your Cline MCP settings file. The location depends on your setup:
 
 - For Cline extension: `~/Library/Application Support/Cursor/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`
 - For Roo Code VS Code extension: `~/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/mcp_settings.json`
@@ -93,14 +93,14 @@ Add the following configuration to your MCP settings:
     "command": "npx",
     "args": ["-y", "@allpepper/context-bank-mcp"],
     "env": {
-      "CONTEXT_BANK_ROOT": "<path-to-bank>"
+      "CONTEXT_ROOT": "<path-to-bank>"
     },
     "disabled": false,
     "autoApprove": [
-      "context_bank_read",
-      "context_bank_write",
-      "context_bank_update",
-      "context_bank_retrieve",
+      "context_read",
+      "context_write",
+      "context_update",
+      "context_retrieve",
       "list_projects",
       "list_project_files"
     ]
@@ -111,17 +111,17 @@ Add the following configuration to your MCP settings:
 ### Configuration Details
 
 **Server Environment Variables:**
-- `CONTEXT_BANK_ROOT`: Directory where project context banks will be stored (e.g., `/path/to/context-bank`) - **Required** (falls back to `MEMORY_BANK_ROOT` for backward compatibility)
+- `CONTEXT_ROOT`: Directory where project context will be stored (e.g., `/path/to/context`) - **Required** (falls back to `CONTEXT_BANK_ROOT` or `MEMORY_BANK_ROOT` for backward compatibility)
 - `SERVER_PORT`: HTTP server port (default: `8080`) - Optional
 - `SSE_ENDPOINT`: SSE endpoint path (default: `/mcp`) - Optional
 
 **Client Configuration:**
 - `disabled`: Set to `false` to enable the server
 - `autoApprove`: List of operations that don't require explicit user approval:
-  - `context_bank_read`: Read context bank files
-  - `context_bank_write`: Create new context bank files
-  - `context_bank_update`: Update existing context bank files
-  - `context_bank_retrieve`: Retrieve context bank files to local workspace
+  - `context_read`: Read context files
+  - `context_write`: Create new context files
+  - `context_update`: Update existing context files
+  - `context_retrieve`: Retrieve context files to local workspace
   - `list_projects`: List available projects
   - `list_project_files`: List files within a project
 
@@ -129,7 +129,7 @@ Add the following configuration to your MCP settings:
 
 For Cursor, you can connect to a running SSE server:
 
-1. Start the context bank server (see Quick Start above)
+1. Start the context server (see Quick Start above)
 2. Configure Cursor to connect via HTTP:
 
 ```json
@@ -144,14 +144,14 @@ For Cursor, you can connect to a running SSE server:
 Or run it directly (legacy stdio mode - for single user):
 
 ```shell
-env CONTEXT_BANK_ROOT=<path-to-bank> npx -y @allpepper/context-bank-mcp@latest
+env CONTEXT_ROOT=<path-to-bank> npx -y @allpepper/context-bank-mcp@latest
 ```
 ## Using with Claude
 
 - Claude desktop config file: `~/Library/Application Support/Claude/claude_desktop_config.json`
 - Claude Code config file:  `~/.claude.json`
 
-1. Start the context bank server (see Quick Start above)
+1. Start the context server (see Quick Start above)
 2. Locate the config file
 3. Locate the property called `mcpServers`
 4. Paste this (SSE/HTTP connection):
@@ -162,7 +162,7 @@ env CONTEXT_BANK_ROOT=<path-to-bank> npx -y @allpepper/context-bank-mcp@latest
     "type": "sse",
     "url": "http://localhost:8080/mcp",
     "env": {
-      "CONTEXT_BANK_ROOT": "YOUR PATH"
+      "CONTEXT_ROOT": "YOUR PATH"
     }
   }
 }
@@ -180,7 +180,7 @@ Or use stdio mode (single user, legacy):
       "@allpepper/context-bank-mcp@latest"
     ],
     "env": {
-      "CONTEXT_BANK_ROOT": "YOUR PATH"
+      "CONTEXT_ROOT": "YOUR PATH"
     }
   }
 }
@@ -216,18 +216,18 @@ npm run dev
 1. Build the Docker image:
 
     ```bash
-    docker build -t context-bank-mcp:local .
+    docker build -t context-mcp:local .
     ```
 
 2. Run the Docker container for testing:
 
     ```bash
     docker run -i --rm \
-      -e CONTEXT_BANK_ROOT="/mnt/context_bank" \
-      -v /path/to/context-bank:/mnt/context_bank \
+      -e CONTEXT_ROOT="/mnt/context" \
+      -v /path/to/context:/mnt/context \
       --entrypoint /bin/sh \
-      context-bank-mcp:local \
-      -c "ls -la /mnt/context_bank"
+      context-mcp:local \
+      -c "ls -la /mnt/context"
     ```
 
 3. Add MCP configuration, example for Roo Code:
@@ -238,22 +238,22 @@ npm run dev
       "args": [
         "run", "-i", "--rm",
         "-e", 
-        "CONTEXT_BANK_ROOT",
+        "CONTEXT_ROOT",
         "-v", 
-        "/path/to/context-bank:/mnt/context_bank",
-        "context-bank-mcp:local"
+        "/path/to/context:/mnt/context",
+        "context-mcp:local"
       ],
       "env": {
-        "CONTEXT_BANK_ROOT": "/mnt/context_bank"
+        "CONTEXT_ROOT": "/mnt/context"
       },
       "disabled": false,
       "alwaysAllow": [
         "list_projects",
         "list_project_files",
-        "context_bank_read",
-        "context_bank_update",
-        "context_bank_write",
-        "context_bank_retrieve"
+        "context_read",
+        "context_update",
+        "context_write",
+        "context_retrieve"
       ]
     }
     ```
@@ -290,4 +290,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgments
 
-This project implements the context bank concept originally documented in the [Cline Memory Bank](https://github.com/nickbaumann98/cline_docs/blob/main/prompting/custom%20instructions%20library/cline-memory-bank.md), extending it with remote capabilities and multi-project support.
+This project implements the context concept originally documented in the [Cline Memory Bank](https://github.com/nickbaumann98/cline_docs/blob/main/prompting/custom%20instructions%20library/cline-memory-bank.md), extending it with remote capabilities and multi-project support.

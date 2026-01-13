@@ -8,12 +8,12 @@ import {
 
 export interface RetrieveContextRequest {
   /**
-   * The name of the project to retrieve context bank files from.
+   * The name of the project to retrieve context files from.
    */
   projectName: string;
 
   /**
-   * Optional local path where files should be saved. Defaults to "./context-bank".
+   * Optional local path where files should be saved. Defaults to "./context".
    */
   localPath?: string;
 }

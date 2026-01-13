@@ -15,7 +15,7 @@ export default () => {
   router.setTool({
     schema: {
       name: "list_projects",
-      description: "List all projects in the context bank",
+      description: "List all projects in the context",
       inputSchema: {
         type: "object",
         properties: {},
@@ -45,8 +45,8 @@ export default () => {
 
   router.setTool({
     schema: {
-      name: "context_bank_read",
-      description: "Read a context bank file for a specific project",
+      name: "context_read",
+      description: "Read a context file for a specific project",
       inputSchema: {
         type: "object",
         properties: {
@@ -67,8 +67,8 @@ export default () => {
 
   router.setTool({
     schema: {
-      name: "context_bank_write",
-      description: "Create a new context bank file for a specific project",
+      name: "context_write",
+      description: "Create a new context file for a specific project",
       inputSchema: {
         type: "object",
         properties: {
@@ -93,8 +93,8 @@ export default () => {
 
   router.setTool({
     schema: {
-      name: "context_bank_update",
-      description: "Update an existing context bank file for a specific project",
+      name: "context_update",
+      description: "Update an existing context file for a specific project",
       inputSchema: {
         type: "object",
         properties: {
@@ -119,8 +119,8 @@ export default () => {
 
   router.setTool({
     schema: {
-      name: "context_bank_retrieve",
-      description: "Retrieve all context bank files from a project on the server and save them to local workspace, overriding existing local files",
+      name: "context_retrieve",
+      description: "Retrieve all context files from a project on the server and save them to local workspace, overriding existing local files",
       inputSchema: {
         type: "object",
         properties: {
@@ -130,7 +130,7 @@ export default () => {
           },
           localPath: {
             type: "string",
-            description: "Optional local path where files should be saved. Defaults to './context-bank'",
+            description: "Optional local path where files should be saved. Defaults to './context'",
           },
         },
         required: ["projectName"],

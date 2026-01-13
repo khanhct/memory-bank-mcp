@@ -2,11 +2,11 @@
 
 ## Overview
 
-Memory Bank MCP Server is a Model Context Protocol (MCP) server implementation that provides remote access to memory bank files. It transforms traditional file-based memory banks into a centralized service accessible via the MCP protocol.
+Context MCP Server is a Model Context Protocol (MCP) server implementation that provides remote access to context files. It transforms traditional file-based context into a centralized service accessible via the MCP protocol.
 
 ## Core Purpose
 
-Enable AI assistants (Cline, Claude, Cursor, etc.) to remotely manage and access project memory banks across multiple projects through a standardized MCP interface.
+Enable AI assistants (Cline, Claude, Cursor, etc.) to remotely manage and access project context across multiple projects through a standardized MCP interface.
 
 ## Key Requirements
 
@@ -21,9 +21,10 @@ Enable AI assistants (Cline, Claude, Cursor, etc.) to remotely manage and access
    - Proper error handling
 
 3. **Core Operations**
-   - Read memory bank files
-   - Write new memory bank files
-   - Update existing memory bank files
+   - Read context files
+   - Write new context files
+   - Update existing context files
+   - Retrieve context files to local workspace
    - List available projects
    - List files within projects
 
@@ -35,7 +36,7 @@ Enable AI assistants (Cline, Claude, Cursor, etc.) to remotely manage and access
 
 ## Success Criteria
 
-- Successfully serve memory bank files via MCP protocol
+- Successfully serve context files via MCP protocol
 - Support multiple concurrent projects
 - Maintain data integrity and security
 - Provide reliable remote access for AI assistants

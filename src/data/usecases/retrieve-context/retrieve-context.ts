@@ -19,7 +19,7 @@ export class RetrieveContext implements RetrieveContextUseCase {
   async retrieveContext(
     params: RetrieveContextParams
   ): Promise<RetrieveContextResult> {
-    const { projectName, localPath = "./context-bank" } = params;
+    const { projectName, localPath = "./context" } = params;
 
     // Resolve the local path to absolute
     const absoluteLocalPath = path.resolve(localPath);

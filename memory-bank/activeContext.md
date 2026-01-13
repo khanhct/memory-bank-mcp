@@ -24,7 +24,7 @@
   - Updated package scripts with `start` command
 
 - **Architecture Changes**:
-  - Server now runs as HTTP server on configurable port (default: 3000)
+  - Server now runs as HTTP server on configurable port (default: 8080)
   - SSE endpoint for real-time connections (default: `/mcp`)
   - Multiple concurrent client connections supported
   - All existing business logic preserved (repositories, use cases, controllers)

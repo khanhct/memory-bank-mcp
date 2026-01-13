@@ -7,16 +7,16 @@ services:
       dockerfile: Dockerfile
     container_name: memory-bank-mcp
     ports:
-      - "${SERVER_PORT:-3000}:3000"
+      - "${SERVER_PORT:-8080}:8080"
     environment:
-      - CONTEXT_BANK_ROOT=/app/memory-banks
-      - SERVER_PORT=3000
+      - CONTEXT_ROOT=/app/memory-banks
+      - SERVER_PORT=8080
       - SSE_ENDPOINT=/mcp
     volumes:
       - memory-bank-data:/app/memory-banks
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/mcp', (r) => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:8080/mcp', (r) => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
       interval: 30s
       timeout: 10s
       retries: 3
