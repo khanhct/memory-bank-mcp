@@ -1,14 +1,14 @@
 {
-  "name": "@allpepper/memory-bank-mcp",
+  "name": "@allpepper/context-bank-mcp",
   "version": "0.2.1",
-  "description": "MCP server for remote management of project memory banks",
+  "description": "MCP server for remote management of project context banks",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alioshr/memory-bank-mcp.git"
   },
   "keywords": [
     "mcp",
-    "memory-bank",
+    "context-bank",
     "project-management",
     "documentation",
     "cline"
@@ -25,12 +25,13 @@
   "license": "MIT",
   "type": "module",
   "bin": {
-    "mcp-server-memory-bank": "dist/main/index.js"
+    "mcp-server-context-bank": "dist/main/index.js"
   },
   "scripts": {
     "build": "tsc && shx chmod +x dist/**/*.js",
     "prepare": "npm run build",
-    "dev": "ts-node src/main/index.ts",
+    "start": "node dist/main/index.js",
+    "dev": "node --import ./register-ts-node.mjs src/main/index.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",

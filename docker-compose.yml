@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  memory-bank-mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: memory-bank-mcp
+    ports:
+      - "${SERVER_PORT:-3000}:3000"
+    environment:
+      - CONTEXT_BANK_ROOT=/app/memory-banks
+      - SERVER_PORT=3000
+      - SSE_ENDPOINT=/mcp
+    volumes:
+      - memory-bank-data:/app/memory-banks
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/mcp', (r) => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  memory-bank-data:
+    driver: local

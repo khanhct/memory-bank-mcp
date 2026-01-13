@@ -2,6 +2,7 @@ import {
   makeListProjectFilesController,
   makeListProjectsController,
   makeReadController,
+  makeRetrieveContextController,
   makeUpdateController,
   makeWriteController,
 } from "../../factories/controllers/index.js";
@@ -14,7 +15,7 @@ export default () => {
   router.setTool({
     schema: {
       name: "list_projects",
-      description: "List all projects in the memory bank",
+      description: "List all projects in the context bank",
       inputSchema: {
         type: "object",
         properties: {},
@@ -44,8 +45,8 @@ export default () => {
 
   router.setTool({
     schema: {
-      name: "memory_bank_read",
-      description: "Read a memory bank file for a specific project",
+      name: "context_bank_read",
+      description: "Read a context bank file for a specific project",
       inputSchema: {
         type: "object",
         properties: {
@@ -66,8 +67,8 @@ export default () => {
 
   router.setTool({
     schema: {
-      name: "memory_bank_write",
-      description: "Create a new memory bank file for a specific project",
+      name: "context_bank_write",
+      description: "Create a new context bank file for a specific project",
       inputSchema: {
         type: "object",
         properties: {
@@ -92,8 +93,8 @@ export default () => {
 
   router.setTool({
     schema: {
-      name: "memory_bank_update",
-      description: "Update an existing memory bank file for a specific project",
+      name: "context_bank_update",
+      description: "Update an existing context bank file for a specific project",
       inputSchema: {
         type: "object",
         properties: {
@@ -114,6 +115,28 @@ export default () => {
       },
     },
     handler: adaptMcpRequestHandler(makeUpdateController()),
+  });
+
+  router.setTool({
+    schema: {
+      name: "context_bank_retrieve",
+      description: "Retrieve all context bank files from a project on the server and save them to local workspace, overriding existing local files",
+      inputSchema: {
+        type: "object",
+        properties: {
+          projectName: {
+            type: "string",
+            description: "The name of the project to retrieve files from",
+          },
+          localPath: {
+            type: "string",
+            description: "Optional local path where files should be saved. Defaults to './context-bank'",
+          },
+        },
+        required: ["projectName"],
+      },
+    },
+    handler: adaptMcpRequestHandler(makeRetrieveContextController()),
   });
 
   return router;

@@ -1,0 +1,61 @@
+# Dependencies
+node_modules
+npm-debug.log
+
+# Build outputs (will be built during Docker build)
+dist
+
+# Development files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Testing
+tests
+coverage
+.nyc_output
+*.test.ts
+*.test.js
+*.spec.ts
+*.spec.js
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+README.md
+*.md
+!memory-bank/**/*.md
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.travis.yml
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+*.log
+.vscode
+.idea
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Other
+*.tmp
+*.temp
+.cache

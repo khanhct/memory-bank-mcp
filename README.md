@@ -1,21 +1,22 @@
-# Memory Bank MCP Server
+# Context Bank MCP Server
 
-[![smithery badge](https://smithery.ai/badge/@alioshr/memory-bank-mcp)](https://smithery.ai/server/@alioshr/memory-bank-mcp)
-[![npm version](https://badge.fury.io/js/%40allpepper%2Fmemory-bank-mcp.svg)](https://www.npmjs.com/package/@allpepper/memory-bank-mcp)
-[![npm downloads](https://img.shields.io/npm/dm/@allpepper/memory-bank-mcp.svg)](https://www.npmjs.com/package/@allpepper/memory-bank-mcp)
+[![smithery badge](https://smithery.ai/badge/@alioshr/context-bank-mcp)](https://smithery.ai/server/@alioshr/context-bank-mcp)
+[![npm version](https://badge.fury.io/js/%40allpepper%2Fcontext-bank-mcp.svg)](https://www.npmjs.com/package/@allpepper/context-bank-mcp)
+[![npm downloads](https://img.shields.io/npm/dm/@allpepper/context-bank-mcp.svg)](https://www.npmjs.com/package/@allpepper/context-bank-mcp)
 
-<a href="https://glama.ai/mcp/servers/ir18x1tixp"><img width="380" height="200" src="https://glama.ai/mcp/servers/ir18x1tixp/badge" alt="Memory Bank Server MCP server" /></a>
+<a href="https://glama.ai/mcp/servers/ir18x1tixp"><img width="380" height="200" src="https://glama.ai/mcp/servers/ir18x1tixp/badge" alt="Context Bank Server MCP server" /></a>
 
-A Model Context Protocol (MCP) server implementation for remote memory bank management, inspired by [Cline Memory Bank](https://github.com/nickbaumann98/cline_docs/blob/main/prompting/custom%20instructions%20library/cline-memory-bank.md).
+A Model Context Protocol (MCP) server implementation for remote context bank management, inspired by [Cline Memory Bank](https://github.com/nickbaumann98/cline_docs/blob/main/prompting/custom%20instructions%20library/cline-memory-bank.md).
 
 ## Overview
 
-The Memory Bank MCP Server transforms traditional file-based memory banks into a centralized service that:
+The Context Bank MCP Server transforms traditional file-based context banks into a centralized service that:
 
-- Provides remote access to memory bank files via MCP protocol
-- Enables multi-project memory bank management
+- Provides remote access to context bank files via MCP protocol over HTTP/SSE
+- Enables multi-project context bank management
+- Supports multiple team members connecting simultaneously via Server-Sent Events (SSE)
 - Maintains consistent file structure and validation
-- Ensures proper isolation between project memory banks
+- Ensures proper isolation between project context banks
 
 ## Features
 
@@ -29,13 +30,15 @@ The Memory Bank MCP Server transforms traditional file-based memory banks into a
 
 - **Remote Accessibility**
 
-  - Full MCP protocol implementation
+  - Full MCP protocol implementation over HTTP/SSE
+  - Server-Sent Events (SSE) for real-time connections
+  - Multiple concurrent client connections supported
   - Type-safe operations
   - Proper error handling
   - Security through project isolation
 
 - **Core Operations**
-  - Read/write/update memory bank files
+  - Read/write/update context bank files
   - List available projects
   - List files within projects
   - Project existence validation
@@ -43,22 +46,41 @@ The Memory Bank MCP Server transforms traditional file-based memory banks into a
 
 ## Installation
 
-To install Memory Bank Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@alioshr/memory-bank-mcp):
+To install Context Bank Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@alioshr/context-bank-mcp):
 
 ```bash
-npx -y @smithery/cli install @alioshr/memory-bank-mcp --client claude
+npx -y @smithery/cli install @alioshr/context-bank-mcp --client claude
 ```
 
 This will set up the MCP server configuration automatically. Alternatively, you can configure the server manually as described in the Configuration section below.
 
 ## Quick Start
 
-1. Configure the MCP server in your settings (see Configuration section below)
-2. Start using the memory bank tools in your AI assistant
+### Running the Server
+
+1. Set environment variables:
+   ```bash
+   export CONTEXT_BANK_ROOT=/path/to/context-bank
+   export SERVER_PORT=3000  # Optional, defaults to 3000
+   export SSE_ENDPOINT=/mcp  # Optional, defaults to /mcp
+   ```
+
+2. Start the server:
+   ```bash
+   npm start
+   # or for development
+   npm run dev
+   ```
+
+3. The server will start on `http://localhost:3000/mcp` (or your configured port/endpoint)
+
+### Connecting Clients
+
+Configure your MCP client to connect to the HTTP/SSE endpoint (see Configuration section below)
 
 ## Using with Cline/Roo Code
 
-The memory bank MCP server needs to be configured in your Cline MCP settings file. The location depends on your setup:
+The context bank MCP server needs to be configured in your Cline MCP settings file. The location depends on your setup:
 
 - For Cline extension: `~/Library/Application Support/Cursor/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`
 - For Roo Code VS Code extension: `~/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/mcp_settings.json`
@@ -67,17 +89,18 @@ Add the following configuration to your MCP settings:
 
 ```json
 {
-  "allpepper-memory-bank": {
+  "allpepper-context-bank": {
     "command": "npx",
-    "args": ["-y", "@allpepper/memory-bank-mcp"],
+    "args": ["-y", "@allpepper/context-bank-mcp"],
     "env": {
-      "MEMORY_BANK_ROOT": "<path-to-bank>"
+      "CONTEXT_BANK_ROOT": "<path-to-bank>"
     },
     "disabled": false,
     "autoApprove": [
-      "memory_bank_read",
-      "memory_bank_write",
-      "memory_bank_update",
+      "context_bank_read",
+      "context_bank_write",
+      "context_bank_update",
+      "context_bank_retrieve",
       "list_projects",
       "list_project_files"
     ]
@@ -87,43 +110,80 @@ Add the following configuration to your MCP settings:
 
 ### Configuration Details
 
-- `MEMORY_BANK_ROOT`: Directory where project memory banks will be stored (e.g., `/path/to/memory-bank`)
+**Server Environment Variables:**
+- `CONTEXT_BANK_ROOT`: Directory where project context banks will be stored (e.g., `/path/to/context-bank`) - **Required** (falls back to `MEMORY_BANK_ROOT` for backward compatibility)
+- `SERVER_PORT`: HTTP server port (default: `3000`) - Optional
+- `SSE_ENDPOINT`: SSE endpoint path (default: `/mcp`) - Optional
+
+**Client Configuration:**
 - `disabled`: Set to `false` to enable the server
 - `autoApprove`: List of operations that don't require explicit user approval:
-  - `memory_bank_read`: Read memory bank files
-  - `memory_bank_write`: Create new memory bank files
-  - `memory_bank_update`: Update existing memory bank files
+  - `context_bank_read`: Read context bank files
+  - `context_bank_write`: Create new context bank files
+  - `context_bank_update`: Update existing context bank files
+  - `context_bank_retrieve`: Retrieve context bank files to local workspace
   - `list_projects`: List available projects
   - `list_project_files`: List files within a project
 
 ## Using with Cursor
 
-For Cursor, open the settings -> features -> add MCP server -> add the following:
+For Cursor, you can connect to a running SSE server:
+
+1. Start the context bank server (see Quick Start above)
+2. Configure Cursor to connect via HTTP:
+
+```json
+{
+  "allpepper-context-bank": {
+    "url": "http://localhost:3000/mcp",
+    "type": "sse"
+  }
+}
+```
+
+Or run it directly (legacy stdio mode - for single user):
 
 ```shell
-env MEMORY_BANK_ROOT=<path-to-bank> npx -y @allpepper/memory-bank-mcp@latest
+env CONTEXT_BANK_ROOT=<path-to-bank> npx -y @allpepper/context-bank-mcp@latest
 ```
 ## Using with Claude
 
 - Claude desktop config file: `~/Library/Application Support/Claude/claude_desktop_config.json`
 - Claude Code config file:  `~/.claude.json`
 
-1. Locate the config file
+1. Start the context bank server (see Quick Start above)
+2. Locate the config file
 3. Locate the property called `mcpServers`
-4. Paste this:
+4. Paste this (SSE/HTTP connection):
 
+```json
+{
+  "allPepper-context-bank": {
+    "type": "sse",
+    "url": "http://localhost:3000/mcp",
+    "env": {
+      "CONTEXT_BANK_ROOT": "YOUR PATH"
+    }
+  }
+}
 ```
- "allPepper-memory-bank": {
-          "type": "stdio",
-          "command": "npx",
-          "args": [
-            "-y",
-            "@allpepper/memory-bank-mcp@latest"
-          ],
-          "env": {
-            "MEMORY_BANK_ROOT": "YOUR PATH"
-          }
-        }
+
+Or use stdio mode (single user, legacy):
+
+```json
+{
+  "allPepper-context-bank": {
+    "type": "stdio",
+    "command": "npx",
+    "args": [
+      "-y",
+      "@allpepper/context-bank-mcp@latest"
+    ],
+    "env": {
+      "CONTEXT_BANK_ROOT": "YOUR PATH"
+    }
+  }
+}
 ```
 
 ## Custom AI instructions
@@ -156,43 +216,44 @@ npm run dev
 1. Build the Docker image:
 
     ```bash
-    docker build -t memory-bank-mcp:local .
+    docker build -t context-bank-mcp:local .
     ```
 
 2. Run the Docker container for testing:
 
     ```bash
     docker run -i --rm \
-      -e MEMORY_BANK_ROOT="/mnt/memory_bank" \
-      -v /path/to/memory-bank:/mnt/memory_bank \
+      -e CONTEXT_BANK_ROOT="/mnt/context_bank" \
+      -v /path/to/context-bank:/mnt/context_bank \
       --entrypoint /bin/sh \
-      memory-bank-mcp:local \
-      -c "ls -la /mnt/memory_bank"
+      context-bank-mcp:local \
+      -c "ls -la /mnt/context_bank"
     ```
 
 3. Add MCP configuration, example for Roo Code:
 
     ```json
-    "allpepper-memory-bank": {
+    "allpepper-context-bank": {
       "command": "docker",
       "args": [
         "run", "-i", "--rm",
         "-e", 
-        "MEMORY_BANK_ROOT",
+        "CONTEXT_BANK_ROOT",
         "-v", 
-        "/path/to/memory-bank:/mnt/memory_bank",
-        "memory-bank-mcp:local"
+        "/path/to/context-bank:/mnt/context_bank",
+        "context-bank-mcp:local"
       ],
       "env": {
-        "MEMORY_BANK_ROOT": "/mnt/memory_bank"
+        "CONTEXT_BANK_ROOT": "/mnt/context_bank"
       },
       "disabled": false,
       "alwaysAllow": [
         "list_projects",
         "list_project_files",
-        "memory_bank_read",
-        "memory_bank_update",
-        "memory_bank_write"
+        "context_bank_read",
+        "context_bank_update",
+        "context_bank_write",
+        "context_bank_retrieve"
       ]
     }
     ```
@@ -229,4 +290,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgments
 
-This project implements the memory bank concept originally documented in the [Cline Memory Bank](https://github.com/nickbaumann98/cline_docs/blob/main/prompting/custom%20instructions%20library/cline-memory-bank.md), extending it with remote capabilities and multi-project support.
+This project implements the context bank concept originally documented in the [Cline Memory Bank](https://github.com/nickbaumann98/cline_docs/blob/main/prompting/custom%20instructions%20library/cline-memory-bank.md), extending it with remote capabilities and multi-project support.
