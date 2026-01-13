@@ -61,7 +61,7 @@ This will set up the MCP server configuration automatically. Alternatively, you 
 1. Set environment variables:
    ```bash
    export CONTEXT_BANK_ROOT=/path/to/context-bank
-   export SERVER_PORT=3000  # Optional, defaults to 3000
+   export SERVER_PORT=8080  # Optional, defaults to 8080
    export SSE_ENDPOINT=/mcp  # Optional, defaults to /mcp
    ```
 
@@ -72,7 +72,7 @@ This will set up the MCP server configuration automatically. Alternatively, you 
    npm run dev
    ```
 
-3. The server will start on `http://localhost:3000/mcp` (or your configured port/endpoint)
+3. The server will start on `http://localhost:8080/mcp` (or your configured port/endpoint)
 
 ### Connecting Clients
 
@@ -112,7 +112,7 @@ Add the following configuration to your MCP settings:
 
 **Server Environment Variables:**
 - `CONTEXT_BANK_ROOT`: Directory where project context banks will be stored (e.g., `/path/to/context-bank`) - **Required** (falls back to `MEMORY_BANK_ROOT` for backward compatibility)
-- `SERVER_PORT`: HTTP server port (default: `3000`) - Optional
+- `SERVER_PORT`: HTTP server port (default: `8080`) - Optional
 - `SSE_ENDPOINT`: SSE endpoint path (default: `/mcp`) - Optional
 
 **Client Configuration:**
@@ -135,7 +135,7 @@ For Cursor, you can connect to a running SSE server:
 ```json
 {
   "allpepper-context-bank": {
-    "url": "http://localhost:3000/mcp",
+    "url": "http://localhost:8080/mcp",
     "type": "sse"
   }
 }
@@ -160,7 +160,7 @@ env CONTEXT_BANK_ROOT=<path-to-bank> npx -y @allpepper/context-bank-mcp@latest
 {
   "allPepper-context-bank": {
     "type": "sse",
-    "url": "http://localhost:3000/mcp",
+    "url": "http://localhost:8080/mcp",
     "env": {
       "CONTEXT_BANK_ROOT": "YOUR PATH"
     }
